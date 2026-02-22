@@ -520,3 +520,4 @@ attendance_list = tk.Text(
 attendance_list.pack(pady=10, padx=10)
 
 window.mainloop()
+#  CI TESTING
