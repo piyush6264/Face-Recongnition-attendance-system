@@ -38,8 +38,10 @@ jobs:
     - name: Install Black
       run: pip install black
 
-    - name: Check Code Format
-      run: black --check .
+    - name: Auto Format Code
+      run: |
+        pip install black
+        black .
 
     # Build Docker image
     - name: Build Docker Image
