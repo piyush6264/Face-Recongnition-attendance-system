@@ -31,3 +31,7 @@ jobs:
 
     - name: Syntax check
       run: python -m py_compile *.py
+      
+    - name: Check Python Syntax
+      run: |
+       python -m py_compile *.py
