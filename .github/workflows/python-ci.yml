@@ -1,4 +1,4 @@
-name: Python CI
+name: Face Recognition CI/CD
 
 on:
   push:
@@ -9,29 +9,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Install system libraries
+    # Install system libraries required for face-recognition (dlib)
+    - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y cmake build-essential libopenblas-dev liblapack-dev
 
-    - name: Install dependencies
+    - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install numpy
-        pip install opencv-python
-        pip install face-recognition
-        pip install pandas Pillow
+        pip install -r requirements.txt
 
-    - name: Syntax check
-      run: python -m py_compile *.py
-      
-    - name: Check Python Syntax
+    # Syntax Check for your files
+    - name: Syntax Check
       run: |
-       python -m py_compile *.py
+        python -m py_compile face.py
+        python -m py_compile convert_csv_to_excel.py
+
+    # Code formatting check (DevOps standard)
+    - name: Install Black
+      run: pip install black
+
+    - name: Check Code Format
+      run: black --check .
+
+    # Build Docker image
+    - name: Build Docker Image
+      run: docker build -t face-attendance .
